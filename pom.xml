@@ -115,6 +115,7 @@
 				</executions>
 				<configuration>
 					<nodeVersion>v16.13.0</nodeVersion>
+					<npmVersion>8.1.0</npmVersion>
 				</configuration>
 			</plugin>
 		</plugins>
