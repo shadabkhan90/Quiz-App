@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz Question</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-pattern {
+            background-color: #4f46e5;
+            background-image: 
+                radial-gradient(at 47% 33%, hsl(262.00, 83%, 58%) 0, transparent 59%), 
+                radial-gradient(at 82% 65%, hsl(218.00, 39%, 11%) 0, transparent 55%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .option-hover:hover {
+            transform: translateX(8px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        
+        .quiz-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
+        
+        .shape1 { top: 10%; left: 5%; width: 100px; height: 100px; }
+        .shape2 { top: 60%; right: 5%; width: 150px; height: 150px; animation-delay: 1s; }
+        .shape3 { bottom: 10%; left: 15%; width: 80px; height: 80px; animation-delay: 2s; }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen">
+    <div class="max-w-2xl mx-auto px-4 py-16">
+        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 py-6">
+                <h2 class="text-center text-white text-2xl font-bold">Question</h2>
+            </div>
+            <div class="p-8" th:if="${question}">
+                <p th:text="${question.questionText}" class="text-xl text-gray-800 font-medium mb-8"></p>
+                
+                <form th:action="@{/submit}" method="post" class="space-y-4">
+                    <input type="hidden" name="userId" th:value="${userId}">
+                    <input type="hidden" name="questionId" th:value="${question.id}">
+                    
+                    <div class="relative mb-3">
+                        <label class="flex p-4 cursor-pointer bg-white/80 rounded-xl option-hover transition-all duration-200 group shadow-sm">
+                            <input type="radio" name="answer" value="A" required
+                                   class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                            <span class="ml-3 text-gray-700 group-hover:text-gray-900" th:text="${question.optionA}"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="relative mb-3">
+                        <label class="flex p-4 cursor-pointer bg-white/80 rounded-xl option-hover transition-all duration-200 group shadow-sm">
+                            <input type="radio" name="answer" value="B" required
+                                   class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                            <span class="ml-3 text-gray-700 group-hover:text-gray-900" th:text="${question.optionB}"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="relative mb-3">
+                        <label class="flex p-4 cursor-pointer bg-white/80 rounded-xl option-hover transition-all duration-200 group shadow-sm">
+                            <input type="radio" name="answer" value="C" required
+                                   class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                            <span class="ml-3 text-gray-700 group-hover:text-gray-900" th:text="${question.optionC}"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="relative mb-3">
+                        <label class="flex p-4 cursor-pointer bg-white/80 rounded-xl option-hover transition-all duration-200 group shadow-sm">
+                            <input type="radio" name="answer" value="D" required
+                                   class="mt-1 h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500">
+                            <span class="ml-3 text-gray-700 group-hover:text-gray-900" th:text="${question.optionD}"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between pt-6">
+                        <a th:href="@{/stats(userId=${userId})}" 
+                           class="px-6 py-3 bg-white border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 transition duration-300 shadow-sm">
+                            View Stats
+                        </a>
+                        <button type="submit" 
+                                class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg transition duration-300 shadow-md">
+                            Submit Answer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
