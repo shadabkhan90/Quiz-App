@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .bg-pattern {
+            background-color: #4f46e5;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+                radial-gradient(at 47% 33%, hsl(262.00, 83%, 58%) 0, transparent 59%), 
+                radial-gradient(at 82% 65%, hsl(218.00, 39%, 11%) 0, transparent 55%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .quiz-decoration {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .quiz-decoration:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .quiz-decoration:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .quiz-decoration:nth-child(3) { bottom: 15%; left: 15%; animation-delay: 2s; }
+        .quiz-decoration:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+    </style>
+</head>
+<body class="bg-pattern min-h-screen relative overflow-hidden">
+    <!-- Decorative Elements -->
+    <div class="quiz-decoration floating"></div>
+    <div class="quiz-decoration floating"></div>
+    <div class="quiz-decoration floating"></div>
+    <div class="quiz-decoration floating"></div>
+
+    <div class="max-w-2xl mx-auto px-4 py-16 relative">
+        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden animate-fade-in">
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 py-6">
+                <h2 class="text-center text-white text-2xl font-bold">Welcome to Quiz App</h2>
+            </div>
+            <div class="p-8">
+                <form action="/start" method="post" class="space-y-6">
+                    <div>
+                        <label for="userId" class="block text-lg font-medium text-gray-700">Enter your name</label>
+                        <input type="text" 
+                               id="userId" 
+                               name="userId" 
+                               required
+                               class="mt-2 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-lg"
+                               placeholder="Your name">
+                    </div>
+                    <button type="submit" 
+                            class="w-full py-4 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-lg font-semibold rounded-lg shadow-md transition duration-300 ease-in-out transform hover:-translate-y-1">
+                        Start Your Journey
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
