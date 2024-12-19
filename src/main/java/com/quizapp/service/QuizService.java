@@ -45,13 +45,13 @@ public class QuizService {
         if (question != null && session != null) {
             boolean isCorrect = question.getCorrectAnswer().equalsIgnoreCase(answer);
             
-            // Update session statistics
+            
             session.setTotalQuestions(session.getTotalQuestions() + 1);
             if (isCorrect) {
                 session.setCorrectAnswers(session.getCorrectAnswers() + 1);
             }
             
-            // Save session once with all updates
+          
             quizSessionRepository.save(session);
             return isCorrect;
         }
