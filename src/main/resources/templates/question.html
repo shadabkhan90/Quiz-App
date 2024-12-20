@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Quiz Question</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Question</h2>
+        <div th:if="${question}">
+            <p th:text="${question.questionText}" class="h5 mb-4"></p>
+            <form action="/submit" method="post">
+                <input type="hidden" name="userId" th:value="${userId}">
+                <input type="hidden" name="questionId" th:value="${question.id}">
+                
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="answer" th:value="A" required>
+                    <label class="form-check-label" th:text="${question.optionA}"></label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="answer" th:value="B">
+                    <label class="form-check-label" th:text="${question.optionB}"></label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="answer" th:value="C">
+                    <label class="form-check-label" th:text="${question.optionC}"></label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="answer" th:value="D">
+                    <label class="form-check-label" th:text="${question.optionD}"></label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </form>
+            
+            <a th:href="@{/stats(userId=${userId})}" class="btn btn-secondary mt-3">View Stats</a>
+        </div>
+    </div>
+</body>
+</html> 

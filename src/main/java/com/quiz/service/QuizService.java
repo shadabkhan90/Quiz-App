@@ -1,14 +1,11 @@
-package com.quizapp.service;
+package com.quiz.service;
 
-import com.quizapp.model.Question;
-import com.quizapp.model.QuizSession;
-import com.quizapp.repository.QuestionRepository;
-import com.quizapp.repository.QuizSessionRepository;
+import com.quiz.model.Question;
+import com.quiz.model.QuizSession;
+import com.quiz.repository.QuestionRepository;
+import com.quiz.repository.QuizSessionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class QuizService {
@@ -18,12 +15,7 @@ public class QuizService {
     @Autowired
     private QuizSessionRepository quizSessionRepository;
 
-    @Transactional
     public QuizSession startNewSession(String userId) {
-        // Deactivate any existing active sessions for this user
-        quizSessionRepository.deactivateUserSessions(userId);
-        
-        // Create new session
         QuizSession session = new QuizSession();
         session.setUserId(userId);
         session.setActive(true);
@@ -36,30 +28,23 @@ public class QuizService {
         return questionRepository.findRandomQuestion();
     }
 
-    @Transactional
     public boolean submitAnswer(String userId, Long questionId, String answer) {
         Question question = questionRepository.findById(questionId).orElse(null);
-        List<QuizSession> activeSessions = quizSessionRepository.findByUserIdAndActive(userId, true);
-        QuizSession session = activeSessions.isEmpty() ? null : activeSessions.get(0);
+        QuizSession session = quizSessionRepository.findByUserIdAndActive(userId, true);
         
         if (question != null && session != null) {
-            boolean isCorrect = question.getCorrectAnswer().equalsIgnoreCase(answer);
-            
-            
             session.setTotalQuestions(session.getTotalQuestions() + 1);
-            if (isCorrect) {
+            if (question.getCorrectAnswer().equals(answer)) {
                 session.setCorrectAnswers(session.getCorrectAnswers() + 1);
+                quizSessionRepository.save(session);
+                return true;
             }
-            
-          
             quizSessionRepository.save(session);
-            return isCorrect;
         }
         return false;
     }
 
     public QuizSession getSessionStats(String userId) {
-        List<QuizSession> activeSessions = quizSessionRepository.findByUserIdAndActive(userId, true);
-        return activeSessions.isEmpty() ? null : activeSessions.get(0);
+        return quizSessionRepository.findByUserIdAndActive(userId, true);
     }
 } 
