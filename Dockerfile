@@ -1,4 +1,4 @@
-FROM maven:3.8.5-jdk-17 AS build
+FROM maven:3.4.1-jdk-21 AS build
 COPY . .
 RUN mvn clean package
 
